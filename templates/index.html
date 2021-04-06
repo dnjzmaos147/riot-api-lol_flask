@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/search.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main-style.css')}}">
+    
+    <!-- <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/search.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/4q.css"> -->
+    <title>전적검색</title>
+
+</head>
+
+<body>
+    <div id="main-lol-var">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="./"><img src="/static/image/logo.png" style="width: 200px;"></a>
+            <div class="collapse navbar-collapse" id="navbarColor01"></div>
+            {% if session['user_info'] %}
+            <div style="color: white;">{{session['user_info'][1]}} |  &nbsp<a href="/logout">로그아웃</a></div>
+            {% else %}
+            <a href="/signin_page"><input class="btn btn-secondary my-2 my-sm-0" type="button" value="로그인"/></a>
+            {% endif %}
+        </nav>
+    </div>
+
+    <video autoplay muted loop id="myVideo">
+        <source
+            src="https://lolstatic-a.akamaihd.net/frontpage/apps/prod/harbinger-l10-website/ko-kr/production/ko-kr/static/hero-0632cbf2872c5cc0dffa93d2ae8a29e8.webm"
+            type="video/webm">
+    </video>
+
+    
+
+    <div class="search-body">
+        <div class="lol-info-page">
+            <a href="#">챔피언</a> / <a href="#">아이템</a> / <a href="#">랭킹</a>
+        </div>
+        <div class="search-box">
+            
+            <form action="/search">
+                <input type="text" name="name" placeholder="소환사명을 검색하세요." /><span></span>
+            </form>
+        </div>
+    </div>
+</body>
+
+<script>
+    var searchBox = document.querySelectorAll(
+        '.search-box input[type="text"] + span'
+    );
+
+    searchBox.forEach((elm) => {
+        elm.addEventListener("click", () => {
+            elm.previousElementSibling.value = "";
+        });
+    });
+
+</script>
+
+
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lnag="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename="css/signup_style.css") }}" rel="stylesheet" id="signup_style-css">
+</head>
+
+<body>
+    <!-- header -->
+    <!-- <div id="header">
+        <a href="/" 
+            title=""><img src="../../static/image/nomu_logo.png" id="logo"></a>
+    </div> -->
+    <header>
+        <a href="/">
+            <h1 style="margin-top: 50px;">DODGE ME</h1>
+        </a>
+    </header>
+
+    <!-- wrapper -->
+    <div id="wrapper">
+
+        <!-- content-->
+        <div id="content">
+            <form  method="POST" action="/signup" name="userinput">
+                <!-- ID -->
+                <div>
+                    <h3 class="join_title">
+                        <label for="id">아이디</label>
+                    </h3>
+                    <span class="box int_id">
+                        <input type="text" id="id" class="int" maxlength="20" name="user_id">
+                        
+                    </span>
+                    <span class="error_next_box"></span>
+                </div>
+
+                <!-- PW1 -->
+                <div>
+                    <h3 class="join_title"><label for="pswd1">비밀번호</label></h3>
+                    <span class="box int_pass">
+                        <input type="text" id="pswd1" class="int" maxlength="20" name="user_pw">
+                        <span id="alertTxt">사용불가</span>
+                        <img src="../../static/image/login_img/m_icon_pass.png" id="pswd1_img1" class="pswdImg">
+                    </span>
+                    <span class="error_next_box"></span>
+                </div>
+
+                <!-- PW2 -->
+                <div>
+                    <h3 class="join_title"><label for="pswd2">비밀번호 재확인</label></h3>
+                    <span class="box int_pass_check">
+                        <input type="text" id="pswd2" class="int" maxlength="20">
+                        <img src="../../static/image/login_img/m_icon_check_disable.png" id="pswd2_img1" class="pswdImg">
+                    </span>
+                    <span class="error_next_box"></span>
+                </div>
+
+                <!-- NAME -->
+                <div>
+                    <h3 class="join_title"><label for="name">닉네임</label></h3>
+                    <span class="box int_name">
+                        <input type="text" id="name" class="int" maxlength="20" name="user_name">
+                    </span>
+                    <span class="error_next_box"></span>
+                </div>
+
+                <!-- BIRTH -->
+                <div>
+                    <h3 class="join_title"><label for="yy">생년월일</label></h3>
+
+                    <div id="bir_wrap">
+                        <!-- BIRTH_YY -->
+                        <div id="bir_yy">
+                            <span class="box">
+                                <input type="text" id="yy" class="int" maxlength="4" placeholder="년(4자)" name="user_birth_year">
+                            </span>
+                        </div>
+
+                        <!-- BIRTH_MM -->
+                        <div id="bir_mm">
+                            <span class="box">
+                                <select id="mm" class="sel" name="user_birth_month">
+                                    <option>월</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                            </span>
+                        </div>
+
+                        <!-- BIRTH_DD -->
+                        <div id="bir_dd">
+                            <span class="box">
+                                <input type="text" id="dd" class="int" maxlength="2" placeholder="일" name="user_birth_day">
+                            </span>
+                        </div>
+
+                    </div>
+                    <span class="error_next_box"></span>
+                </div>
+
+                <!-- GENDER -->
+                <div>
+                    <h3 class="join_title"><label for="gender">성별</label></h3>
+                    <span class="box gender_code">
+                        <select id="gender" class="sel" name="user_gender">
+                            <option>성별</option>
+                            <option value="남자">남자</option>
+                            <option value="여자">여자</option>
+                        </select>
+                    </span>
+                    <span class="error_next_box">필수 정보입니다.</span>
+                </div>
+
+                <!-- EMAIL -->
+                <div>
+                    <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional">(선택)</span></label></h3>
+                    <span class="box int_email">
+                        <input type="text" id="email" class="int" maxlength="100" placeholder="선택입력" name="user_email">
+                    </span>
+                    <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span>
+                </div>
+
+                <!-- MOBILE -->
+                <!-- <div>
+                    <h3 class="join_title"><label for="phoneNo">휴대전화</label></h3>
+                    <span class="box int_mobile">
+                        <input type="tel" id="mobile" class="int" maxlength="16" placeholder="전화번호 입력" name="user_tel">
+                    </span>
+                    <span class="error_next_box"></span>
+                </div> -->
+
+
+                <!-- JOIN BTN-->
+                <div class="btn_area">
+                    <button type="button" onclick="checkAllVal()" id="btnJoin">
+                        <span>가입하기</span>
+                    </button>
+                </div>
+            </form>
+
+        </div>
+        
+        <!-- content-->
+
+    </div>
+    
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename="js/signup.js") }}" type="text/javascript"></script>
+</body>
+
+</html>

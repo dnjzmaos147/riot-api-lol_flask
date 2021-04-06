@@ -1,0 +1,199 @@
+<!-- search.html -->
+<!DOCTYPE html>
+
+<head>
+    <title>소환사 정보</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" href="../static/css/search.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="./"><img src="/static/image/logo.png" style="width: 200px;"></a>
+        <div class="collapse navbar-collapse" id="navbarColor01"></div>
+
+        {% if session['user_info'] %}
+            <div style="color: white;">{{session['user_info'][1]}}&nbsp |  &nbsp<a href="/logout">로그아웃</a></div>
+        {% else %}
+            <a href="/signin_page">로그인</a>
+        {% endif %}
+        &nbsp&nbsp&nbsp
+        <form class="form-inline my-2 my-lg-0" action="/search">
+            <input class="form-control mr-sm-2" type="text" name="name" placeholder="소환사명을 검색하세요">
+            <input class="btn btn-secondary my-2 my-sm-0" type="submit" value="검색"></button>
+        </form>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="jumbotron">
+                    <img src="{{profileIcon}}">
+                    <h3>{{sum_name}}</h4>
+                        <h3>Lv.{{level}}</h6>
+                            <div>
+                                <div style="margin-bottom: 20px;">
+                                    숙련도
+                                    <table class="table table-hover">
+                                        {% for i in mostpick %}
+                                        <!-- 숙련도 베스트 3개  -->
+                                        <tr>
+                                            <th><span class="badge badge-pill badge-primary">TOP</span></th>
+                                            <td><span class="game-data"><img src="{{i[0]}}" /></span></td>
+                                            <td><span class="game-data"><img src="{{i[1]}}" /></span></td>
+                                            <td>{{i[2]}} 점</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="card-deck">
+                                {% if length != 0 %}
+                                <!-- 솔랭,자랭 랭크있는지 확인 -->
+                                {% for rank_info in rank_data %}
+                                <div class="card border-secondary mb-3" style="width: 30rem;">
+                                    <div class="card-header">{{rank_info[0]}}</div>
+                                    <div class="card-body">
+                                        <h4 class="card-title"><img src="{{rank_info[1]}}"><!-- 랭크 엠블럼 이미지 -->
+                                        </h4>
+                                        <div> {{rank_info[2]}} 리그</div> <!-- 티어 -->
+                                        <div> {{rank_info[5]}} LP </div> <!-- 점수 -->
+                                        <div> {{rank_info[3]}} 승 {{rank_info[4]}} 패</div> <!-- 승패 -->
+                                    </div>
+                                </div>
+                                <br>
+                                {% endfor %}
+                                {% else %}
+                                <div>언랭임</div> <!-- 랭크가 없을때 -->
+                                {% endif %}
+                            </div>
+
+                </div>
+            </div>
+
+            <div class="col-sm-8">
+                <div class="jumbotron">
+                    <h2>매칭된 게임</h2>
+                    {% if ingame_info[0] == 'nogame' %}
+                    <!-- 진행중게임 확인 -->
+                    <h4 class="display-4">진행중인 게임이 없습니다.</h4>
+                    {% else %}
+                    <span class="badge badge-primary">{{ingame_info[0]}}</span>
+                    <hr>
+                    <table class="table table-hover" style="text-align: center;">
+                        {% for game in ingame_info[1] %}
+                        <!-- 인게임 배열 -->
+                        <tr class="table-primary">
+                            <th scope="row">
+                                <span class="game-data"><img src="{{game['champ']}}" /></span>
+                            </th>
+                            <td class="nickName">
+                                <a href="./search?name={{game['name']}}" style="color:white;">{{game['name']}}</a>
+                            </td>
+                            <td>
+                                <span class="game-data">
+                                    <img src="{{game['spell1']}}" />
+                                    <img src="{{game['spell2']}}" />
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    <table class="table table-hover" style="text-align: center;">
+                        {% for game in ingame_info[2] %}
+                        <tr class="table-danger">
+                            <th scope="row">
+                                <span class="game-data"><img src="{{game['champ']}}" /></span>
+                            </th>
+                            <td class="nickName">
+                                <a href="./search?name={{game['name']}}" style="color:white;">{{game['name']}}</a>
+                            </td>
+                            <td>
+                                <span class="game-data">
+                                    <img src="{{game['spell1']}}" />
+                                    <img src="{{game['spell2']}}" />
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                {% endif %}
+                <div class="jumbotron">
+                    <h2>최근 전적</h2>
+                    {% for g in game_info %}
+                    <div>
+                        {% if g['victory'] == "WIN" %}
+                        <span class="badge badge-primary">
+                            {% else %}
+                        <span class="badge badge-danger">
+                            {% endif %}
+                            {{g['type']}} / {{g['victory']}}
+                        </span>
+                    </div>
+                    <hr>
+                    <table class="table table-hover" style="text-align: center;">
+                        <th class="table-light" rowspan="6">승리</th>
+                        {% for i in g['winteam'] %}
+                        <tr class="table-primary">
+                            <th scope="row">
+                                <span class="game-data"><img src="{{i['champ']}}" /></span>
+                            </th>
+                            <td class="nickName">
+                                <a href="./search?name={{i['name']}}" style="color:white;">{{i['name']}}</a>
+                            </td>
+                            <td>
+                                <span class="game-data"><img src="{{i['spell1']}}" /><img
+                                        src="{{i['spell2']}}" /></span>
+                            </td>
+                            <td>
+                                {% for j in i['item']%}
+                                {% if j == 'empty' %}
+                                <span class="game-data"><img
+                                        src="{{url_for('static', filename='image/empty.png')}}" /></span>
+
+                                {% else %}
+                                <span class="game-data"><img src="{{j}}" /></span>
+                                {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    <table class="table table-hover" style="text-align: center;">
+                        <th class="table-light" rowspan="6">패배</th>
+                        {% for i in g['loseteam'] %}
+                        <tr class="table-danger">
+                            <th scope="row">
+                                <span class="game-data"><img src="{{i['champ']}}" /></span>
+                            </th>
+                            <td class="nickName">
+                                <a href="./search?name={{i['name']}}" style="color:white;">{{i['name']}}</a>
+                            </td>
+                            <td>
+                                <span class="game-data"><img src="{{i['spell1']}}" /><img
+                                        src="{{i['spell2']}}" /></span>
+                            </td>
+                            <td>
+                                {% for j in i['item']%}
+                                {% if j == 'empty' %}
+                                <span class="game-data"><img
+                                        src="{{url_for('static', filename='image/empty.png')}}" /></span>
+                                {% else %}
+                                <span class="game-data"><img src="{{j}}" /></span>
+                                {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

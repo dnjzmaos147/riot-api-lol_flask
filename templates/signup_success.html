@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lnag="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename="css/signup_style.css") }}" rel="stylesheet" id="signup_style-css">
+</head>
+
+<body>
+    <!-- header -->
+    <!-- <div id="header">
+        <a href="/" 
+            title=""><img src="../../static/image/nomu_logo.png" id="logo"></a>
+    </div> -->
+    <header>
+        <a href="/">
+            <h1>NOMU</h1>
+        </a>
+    </header>
+
+    <!-- wrapper -->
+    <div id="wrapper">
+
+        <!-- content-->
+        <div id="content">
+            
+            회원가입이 완료 되었습니다.<br>
+                <!-- JOIN BTN-->
+                <div class="btn_area">
+                    <button type="button" onclick="goBack()" id="btnJoin">
+                        <span>확인</span>
+                    </button>
+                </div>
+           
+
+        </div>
+        
+        <!-- content-->
+
+    </div>
+    
+    <!-- wrapper -->
+    <script>
+        function goBack(){
+            location.href='/' 
+        }
+    </script>
+</body>
+
+</html>

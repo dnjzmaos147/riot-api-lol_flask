@@ -1,0 +1,19 @@
+.game-data img{
+    width: 30px;
+    height: 30px;
+}
+
+.nickName{
+    display: inline-block; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    min-width: 146px;
+    max-width: 200px; 
+    text-align: left;
+}
+
+
+a:hover { color: white; }
+a:link { color: white; text-decoration: none;}
+a:visited { color: white; text-decoration: none;}
