@@ -66,7 +66,6 @@ email.addEventListener("focusout", isEmailCorrect);
 
 /*콜백 함수*/
 
-
 function checkId() {
     var idPattern = /[a-zA-Z0-9_-]{5,20}/;
     if(id.value === "") {
@@ -88,14 +87,14 @@ function checkId() {
 
 function checkPw() {
     // var pwPattern = /[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]{8,16}/;
-    var pwPattern = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-    
+    var pwPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
+
     if(pw1.value === "") {
         error[1].innerHTML = "필수 정보입니다.";
         error[1].style.display = "block";
         checkFlag['user_pw'] = false;
     } else if(!pwPattern.test(pw1.value)) {
-        error[1].innerHTML = "8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.";
+        error[1].innerHTML = "8~16자 영문, 숫자, 특수문자를 사용하세요.";
         pwMsg.innerHTML = "사용불가";
         pwMsgArea.style.paddingRight = "93px";
         error[1].style.display = "block";
