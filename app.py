@@ -1,15 +1,21 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 import os
 import requests
+import config
 
-from pymongo import MongoClient 
-my_client = MongoClient("mongodb://localhost:27017/") 
-mydb = my_client['dodgeme'] 
+from pymongo import MongoClient
 
-
+# 기본 세팅
 app = Flask(__name__)
-app.secret_key = '6as84Wg6r4DWFWf1aw51fw5DFWGG64gh'
-apikey = "RGAPI-e6a81dfc-4b36-47d4-8660-5f31e3e3e3e4"
+app.config.from_pyfile('config/config.py')
+
+# 키 설절
+app.secret_key = app.config['SECRET_KEY']
+RIOT_API_KEY = app.config['RIOT_API_KEY']
+
+# DB 설정
+my_client = MongoClient(app.config['DB_URL'])
+mydb = my_client['dodgeme'] 
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -90,7 +96,7 @@ def search():
     headers = {
         "Origin": "https://developer.riotgames.com",
         "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
-        "X-Riot-Token": apikey,
+        "X-Riot-Token": RIOT_API_KEY,
         "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
     }
