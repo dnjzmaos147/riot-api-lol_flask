@@ -22,9 +22,9 @@ def signup():
     mycol = mydb['user_info'] 
     login_user_id = request.form['user_id']
     
-    for i in mycol.find({"user_id" : login_user_id}):
-        if i:
-            return "이미 사용중인 아이디"
+    idCheck = mycol.find_one({"user_id" : login_user_id})
+    if idCheck:
+        return {"check" : "이미 사용중인 아이디 입니다."}
 
     user_age = request.form['user_birth_year'] + "-" + request.form['user_birth_month'] + "-" +request.form['user_birth_day']
     user_db = {
@@ -44,9 +44,9 @@ def check_id_duplicate():
     mycol = mydb['user_info'] 
     login_user_id = request.form['user_id']
     
-    for i in mycol.find({"user_id" : login_user_id}):
-        if i:
-            return {"check" : "이미 사용중인 아이디 입니다."}
+    idCheck = mycol.find_one({"user_id" : login_user_id})
+    if idCheck:
+        return {"check" : "이미 사용중인 아이디 입니다."}
             
     return {"check" : "ok"}
     
