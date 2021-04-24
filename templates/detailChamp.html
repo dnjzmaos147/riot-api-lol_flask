@@ -38,6 +38,10 @@
     height: 40px;
     overflow: hidden;
 }
+.skins {
+  width: 500px;
+  height: 500px;
+}
 </style>
 
 <body>
@@ -64,7 +68,8 @@
         <div class="champion-stats-header-info champion-stats-header-info--tier-4">
           <div class="champion-stats-header-info__image">
             <img src="{{champImg}}" />
-            <h1 class="champion-stats-header-info__name">{{ChampNameKR}}</h1>
+            <h1 class="champion-stats-header-info__name">{{champNameKR}}</h1>
+            <h5> 챔피언 설명 : {{lore}}</h5>
           </div>
           <div class="champion-stats-header-info__skill">
             {% for i in skills %}
@@ -72,6 +77,12 @@
             {% endfor %}
           </div>
         </div>
+      </div>
+      <div class="l-champion-statistics-body">
+        {% for i in champSkins %}
+          <div>{{i.name}}</div>
+          <img class="skins" src="{{i.img}}" />
+        {% endfor %}
       </div>
     </div>
 </body>

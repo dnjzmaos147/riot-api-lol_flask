@@ -152,7 +152,17 @@ def champDetail():
     champ = res_champ.json().get('data')
 
     # 챔피언 명
-    ChampNameKR = champ.get(champName).get('name')
+    champNameKR = champ.get(champName).get('name')
+    champTitle = champ.get(champName).get('title')
+    lore = champ.get(champName).get('lore')
+
+    # 챔피언 스킨 정보
+    champSkins = champ.get(champName).get('skins')
+    for i in champSkins:
+        if i['name'] == 'default':
+            i['name'] = '기본'
+        i['img'] = "http://ddragon.leagueoflegends.com/cdn/img/champion/splash/{}_{}.jpg".format(champName, i.get('num'))
+    
 
     # 챔피언 이미지
     champImg = "http://ddragon.leagueoflegends.com/cdn/{}/img/champion/".format(version) + champ.get(champName).get('image').get('full')
@@ -166,7 +176,7 @@ def champDetail():
         skills.append(skill)
     
 
-    return render_template('detailChamp.html', champ=champ, champImg=champImg, ChampNameKR=ChampNameKR, skills=skills)
+    return render_template('detailChamp.html', champ=champ, champImg=champImg, champNameKR=champNameKR, skills=skills, champSkins=champSkins, lore=lore)
     
     
 @app.route('/search')
