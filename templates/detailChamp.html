@@ -1,0 +1,77 @@
+<!-- search.html -->
+<!DOCTYPE html>
+<script>
+</script>
+<head>
+    <title>챔피언 정보</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" href="../static/css/search.css">
+</head>
+<style>
+.l-champion-statistics-header {
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    background: #292e38;
+}
+.champion-stats-header-info {
+    float: left;
+    margin-top: 30px;
+    margin-bottom: 24px;
+    width: 610px;
+}
+.champion-stats-header-info__image {
+    position: relative;
+    float: left;
+    margin-right: 20px;
+}
+.champion-stats-header-info__skill {
+    margin-top: 10px;
+}
+.champion-stat__skill {
+    position: relative;
+    float: left;
+    border: 1px solid #000;
+    border-radius: 2px;
+    margin-left: 8px;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+}
+</style>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="./"><img src="/static/image/logo.png" style="width: 200px;"></a>
+        <div class="collapse navbar-collapse" id="navbarColor01"></div>
+
+        {% if session['user_info'] %}
+            <div style="color: white;">{{session['user_info'][1]}}&nbsp |  &nbsp<a href="/logout">로그아웃</a></div>
+        {% else %}
+            <a href="/signin_page">로그인</a>
+        {% endif %}
+        &nbsp&nbsp&nbsp
+        <form class="form-inline my-2 my-lg-0" action="/search">
+            <input class="form-control mr-sm-2" type="text" name="name" placeholder="소환사명을 검색하세요">
+            <input class="btn btn-secondary my-2 my-sm-0" type="submit" value="검색"></button>
+        </form>
+        </div>
+    </nav>
+
+    <div class="container">
+      <div class="l-champion-statistics-header">
+        <div class="champion-stats-header-info champion-stats-header-info--tier-4">
+          <div class="champion-stats-header-info__image">
+            <img src="{{champImg}}" />
+            <h1 class="champion-stats-header-info__name">{{ChampNameKR}}</h1>
+          </div>
+          <div class="champion-stats-header-info__skill">
+            {% for i in skills %}
+            <div class="champion-stat__skill tip tpd-delegation-uid-1"><img src="{{i}}" /></div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+</body>

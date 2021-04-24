@@ -1,0 +1,57 @@
+<!-- search.html -->
+<!DOCTYPE html>
+
+<head>
+    <title>챔피언 정보</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" href="../static/css/search.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="./"><img src="/static/image/logo.png" style="width: 200px;"></a>
+        <div class="collapse navbar-collapse" id="navbarColor01"></div>
+
+        {% if session['user_info'] %}
+            <div style="color: white;">{{session['user_info'][1]}}&nbsp |  &nbsp<a href="/logout">로그아웃</a></div>
+        {% else %}
+            <a href="/signin_page">로그인</a>
+        {% endif %}
+        &nbsp&nbsp&nbsp
+        <form class="form-inline my-2 my-lg-0" action="/search">
+            <input class="form-control mr-sm-2" type="text" name="name" placeholder="소환사명을 검색하세요">
+            <input class="btn btn-secondary my-2 my-sm-0" type="submit" value="검색"></button>
+        </form>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="jumbotron">
+                    <img src="{{profileIcon}}">
+                    <div>
+                        <div style="margin-bottom: 20px;">
+                            챔피언
+                            <table class="table table-hover" >
+                                {% for i in champ %}
+                                    <tr>
+                                        <td>
+                                            <form action="/champ/detail" method="GET">
+                                                <input type="text" name="name" value="{{ i[0] }}" />
+                                                <span class="game-data"><img src="http://ddragon.leagueoflegends.com/cdn/11.8.1/img/champion/{{ i[2].full }}" /></span>
+                                                <button type="submit"></button>
+                                            </form>
+                                        </td>
+                                        <td>{{ i[1] }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

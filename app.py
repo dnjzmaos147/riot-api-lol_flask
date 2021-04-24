@@ -78,6 +78,96 @@ def logout():
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/champion')
+def champion():
+    url_version = "https://ddragon.leagueoflegends.com/api/versions.json"
+    res_version = requests.get(url=url_version).text
+    version = ""
+    for v in range(2, 15):
+        if res_version[v] == '"':
+            break
+        else:
+            version = version + res_version[v]
+
+    sum_name = request.args.get('name')
+    
+    url = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{}".format(sum_name)
+    headers = {
+        "Origin": "https://developer.riotgames.com",
+        "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
+        "X-Riot-Token": RIOT_API_KEY,
+        "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
+    }
+    res = requests.get(url=url,headers=headers)
+    encrypted_id = res.json()['id']
+    level = res.json()['summonerLevel']
+    fix_name = res.json()['name']
+    account_id = res.json()['accountId']
+    profileIconId = res.json()['profileIconId']
+    url_league = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{}".format(encrypted_id)
+    res_league = requests.get(url=url_league,headers=headers)
+    league_dicts = res_league.json()
+    profileIcon = 'http://ddragon.leagueoflegends.com/cdn/{}/img/profileicon/{}.png'.format(version, profileIconId)
+
+
+    url_mastery = "https://kr.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{}".format(encrypted_id)
+    res_mastery = requests.get(url=url_mastery,headers=headers)
+    mastery = res_mastery.json()
+
+
+    url_champ = "http://ddragon.leagueoflegends.com/cdn/{}/data/ko_KR/champion.json".format(version)
+    res_champ = requests.get(url=url_champ)
+    champ = res_champ.json().get('data')
+
+    def get_champ_info(champ):
+        res=[
+            champ.get('id'),
+            champ.get('name'),
+            champ.get('image'),
+        ]
+        return res
+    champ_arr = []
+    for i in champ:
+        champ_arr.append(get_champ_info(champ[i]))
+
+
+    return render_template('champion.html',champ=champ_arr)
+
+@app.route('/champ/detail')
+def champDetail():
+    champName = request.args.get('name')
+    url_version = "https://ddragon.leagueoflegends.com/api/versions.json"
+    res_version = requests.get(url=url_version).text
+    version = ""
+    for v in range(2, 15):
+        if res_version[v] == '"':
+            break
+        else:
+            version = version + res_version[v]
+
+    url_champ = "http://ddragon.leagueoflegends.com/cdn/{}/data/ko_KR/champion/{}.json".format(version, champName)
+    res_champ = requests.get(url=url_champ)
+    champ = res_champ.json().get('data')
+
+    # 챔피언 명
+    ChampNameKR = champ.get(champName).get('name')
+
+    # 챔피언 이미지
+    champImg = "http://ddragon.leagueoflegends.com/cdn/{}/img/champion/".format(version) + champ.get(champName).get('image').get('full')
+
+    # 스킬
+    spells = champ.get(champName).get('spells')
+    skills = []
+    skills.append("http://ddragon.leagueoflegends.com/cdn/{}/img/passive/{}".format(version, champ.get(champName).get('passive').get('image').get('full')))
+    for i in spells:
+        skill = "http://ddragon.leagueoflegends.com/cdn/{}/img/spell/{}.png".format(version, i.get('id'))
+        skills.append(skill)
+    
+
+    return render_template('detailChamp.html', champ=champ, champImg=champImg, ChampNameKR=ChampNameKR, skills=skills)
+    
     
 @app.route('/search')
 def search():
