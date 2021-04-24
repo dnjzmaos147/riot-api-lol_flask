@@ -1,11 +1,9 @@
 <!-- search.html -->
 <!DOCTYPE html>
-
 <head>
     <title>챔피언 정보</title>
     <link rel="stylesheet" href="../static/css/bootstrap.css">
     <link rel="stylesheet" href="../static/css/search.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -41,7 +39,11 @@
                                         <td>
                                             <div class="champDiv">
                                                 <input type="hidden" id="champId" name="champId" value="{{ i[0] }}" />
-                                                <span class="game-data"><img src="http://ddragon.leagueoflegends.com/cdn/11.8.1/img/champion/{{ i[2].full }}" /></span>
+                                                <span class="game-data">
+                                                    <a href="/champ/detail?name={{i[0]}}">
+                                                        <img src="http://ddragon.leagueoflegends.com/cdn/11.8.1/img/champion/{{ i[2].full }}" />
+                                                    </a>
+                                                </span>
                                             </div>
                                         </td>
                                         <td>{{ i[1] }}</td>
@@ -54,11 +56,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-        $(".champDiv").click(function(){
-            param = $(this).children('input').val()
-            location.href="/champ/detail?name=" + param;
-        })
-        </script>
 </body>
