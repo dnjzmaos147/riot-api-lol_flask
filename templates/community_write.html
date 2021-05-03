@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+    <head>
+        <title>DODGE ME</title>
+        <link rel="stylesheet" href="../static/css/bootstrap.css">
+        <link rel="stylesheet" href="../static/css/search.css">
+    </head>
+    
+    <body>
+    
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="./"><img src="/static/image/logo.png" style="width: 200px;"></a>
+            <div class="collapse navbar-collapse" id="navbarColor01"></div>
+    
+            {% if session['user_info'] %}
+                <div style="color: white;">{{session['user_info'][1]}}&nbsp |  &nbsp<a href="/logout">로그아웃</a></div>
+            {% else %}
+                <a href="/signin_page">로그인</a>
+            {% endif %}
+            &nbsp&nbsp&nbsp
+            <form class="form-inline my-2 my-lg-0" action="/search">
+                <input class="form-control mr-sm-2" type="text" name="name" placeholder="소환사명을 검색하세요">
+                <input class="btn btn-secondary my-2 my-sm-0" type="submit" value="검색"></button>
+            </form>
+            </div>
+        </nav>
+
+
+        <form action="/community_create" enctype = "multipart/form-data" method="POST" name="community_write">
+            <select name="type">
+                <option value="free">자유</option>
+                <option value="fun">유머</option>
+                <option value="tip">팁 & 공략</option>
+            </select><br>
+            제목<input type="text" name="board-title" value="" id="board-title"><br>
+            이미지<input type="file" name="board-image"><br>
+            내용<textarea type="text" name="board-contents" value="" id="board-contents"></textarea><br>
+            <button type="button" onclick="gosubmit()">작성</button>
+            <button type="button" onclick="goback()">취소</button>
+        </form>
+    <script>
+        var forms = document.community_write;
+        function gosubmit(){
+            let title = document.getElementById("board-title");
+            let contents = document.getElementById("board-contents");
+            
+            if(title.value === ""){
+                alert("제목을 작성해 주세요.");
+            }else if(contents.value === ""){
+                alert("내용을 작성해 주세요.");
+            }else{
+                forms.submit();
+            }
+        }
+
+        function goback(){
+            location.href="/community"
+        }
+    </script>
+</body>
+</html>

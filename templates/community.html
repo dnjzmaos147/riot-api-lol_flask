@@ -1,0 +1,365 @@
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DODGE ME</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" href="../static/css/search.css">
+    <link href="{{ url_for('static', filename="css/board-style.css") }}" rel="stylesheet">
+
+
+    <script src="http://code.jquery.com/jquery-1.11.0.js"> </script>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="./"><img src="/static/image/logo.png" style="width: 200px;"></a>
+        <div class="collapse navbar-collapse" id="navbarColor01"></div>
+
+        {% if session['user_info'] %}
+            <div style="color: white;">{{session['user_info'][1]}}&nbsp |  &nbsp<a href="/logout">로그아웃</a></div>
+        {% else %}
+            <a href="/signin_page">로그인</a>
+        {% endif %}
+        &nbsp&nbsp&nbsp
+        <form class="form-inline my-2 my-lg-0" action="/search">
+            <input class="form-control mr-sm-2" type="text" name="name" placeholder="소환사명을 검색하세요">
+            <input class="btn btn-secondary my-2 my-sm-0" type="submit" value="검색"></button>
+        </form>
+        </div>
+    </nav>
+    <button class="write_btn">글작성</button>
+    <main class="container">
+
+        <div class="dic2">
+            <div class="dic1">
+                <div class="inputarea">
+                    <input class="searchbar" type="text" placeholder="검색어를 입력해주세요">
+                    <button class="searchBtn" type="button">검색</button>
+                </div>
+            </div>
+            <div class="detail_content">
+                <table class="type09">
+                    <thead>
+                        <!-- <tr>
+                            <th scope="cols">5인 미만 사업장 근로기준법 확대…실제 적용까진 난관 예상</th>
+                            <th scope="cols">신문사 | 2020-20-20</th>
+                        </tr> -->
+                    </thead>
+                    <tbody>
+                    <!-- <tr>
+                      <td colspan="2">최소 노동조건에 예외는 부적절 공감대 커졌지만 부당해고구제·일자리 증발 등 부작용 목소리도 커 전문가 "정부, 로드맵 제시하고 지원책도 병행해야" ▲ 코로나19 재난지원대책 촉구하며 구호 외치는 소상공인들 [서울=뉴시스] 김진아 기자 = 최근 5인 미만 사업장에도 근로기준법을 적용하자는 목소리가 커지고 있지만 실제 적용까진 난관이 예상된다. 노동계는 노동 기본권이란 측면에서 전면 적용을 주장하지만 경영계는 각종 수당 등에 따른 사업주 부담을 호소한다. 5인 미만 사업장 근로자 450만명이 법의 울타리로 들어올 경우 이를 뒷받침할 행정력도 담보할 수 없는 상황이다. 16일 정부부처에 따르면 고용노동부는 최근 '5인 미만 사업장 관련 근로조건 실태조사' 연구용역에 착수했다. 5인 미만 사업장은 근로기준법 사각지대다. 해고 제한, 주 근로시간 상한(40시간) 및 주 연장근로시간 상한(12시간), 연장·야간·휴일근로 시 통상임금의 50%에 해당하는 가산수당, 연차 휴가 등이 적용되지 않는다. 정부가 영세사업장 실태를 들여다보기로 한 데는 신종 코로나바이러스 감염증(코로나19) 사태로 취약계층의 안전망을 강화해야 한다는 인식이 반영된 것으로 보인다. 여당과 정의당 등 정치권에서도 5인 미만 사업장의 근로기준법 적용을 위한 법 개정 움직임이 활발해지는 추세다. 전면·부분 적용 등 각론에 차이는 있지만 근로기준법이 최소 노동조건을 담고 있는 만큼 적용에 예외를 두는 것은 적절치 않다는 공감대가 깔려 있다. 그러나 실제 5인 미만 사업장에 근로기준법이 적용될 경우 초래될 문제는 적지 않을 것으로 예상된다. 우선 부당해고 구제 신청이 급격히 늘어날 가능성이 크다. 현재 5인 미만 사업장의 경우 중앙노동위원회에 부당해고 구제 신청이 불가하다. 한국노동연구원에 따르면 2018년 기준 5인 미만 사업장 근로자 수는 약 455만명 규모(전체 근로자 28%)다. 고용부 관계자는 "5인 미만 사업장에서 노무관리가 제대로 안되고 있는 현실을 감안하면 실체적으로 해고가 부당하다는 것을 입증하기까지도 쉽지 않을 것"이라고 했다. 각종 수당이 적용될 경우 비용 부담을 호소하는 목소리도 크다. 법이 적용되면 사업주는 연장근로 시 시급의 1.5배를 근로자에게 지급해야 하는데 소상공인들은 이에 대한 부담을 줄곧 호소해왔다. 경영계는 업종의 특성을 고려하지 않은 법 적용이 결국 일자리를 증발시킬 것이라 보고 있다. 중소기업중앙회 관계자는 "결국 가장 두려운 것은 일자리"라며 "코로나19까지 겹친 상황에서 비용 감당이 안되는 소상공인들이 채용을 줄이는 상황으로 이어질 것"이라고 우려했다. 전문가들은 법 적용의 사각지대 해소에 공감하면서도 전면 적용보다는 단계적 적용에 무게를 두고 있다. 권혁 부산대 법학과 교수는 "근로기준법이 헌법상 가장 최저 근로조건을 명시하고 있다는 점에서 적용에 규모별 예외를 두는 것은 지속 가능하지 않다"며 "다만 한국 특성상 영세사업주가 근로자와 유사할 정도의 사회적 보호 대상이라는 점에서 법을 확대 적용하는 부분에 대한 로드맵을 제시할 필요가 있다"고 했다. 이어 "동시에 사업장이 역량을 갖추도록 국가 지원에 대한 로드맵을 제시하고 정책을 곁들여 예측 가능성을 높인다면 명분도 확보하고 사업주의 거부감도 줄일 수 있을 것"이라고 했다.</td>
+                    </tr> -->
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="dic_category">
+                <table class="dic_table">
+                    <thead>
+                        <tr>
+                            <td>번호</td>
+                            <td>제목</td>
+                            <td>작성자</td>
+                            <td>날짜</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="paging" id="paging">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
+
+    <script type="text/javascript">
+        {% if session['user_info'] %}
+                let user_id = "{{session['user_info'][0]}}";
+        {% else %}
+                let user_id = "";
+        {% endif %}
+
+        
+
+        // var getParam = function (key) {
+        //     var _parammap = {};
+        //     document.location.search.replace(/\?(?:([^=]+)=([^&]*)&?)/g, function () {
+        //         function decode(s) {
+        //             return decodeURIComponent(s.split("+").join(" "));
+        //         }
+
+        //         _parammap[decode(arguments[1])] = decode(arguments[2]);
+        //     });
+
+        //     return _parammap[key];
+        // };
+        // var searchVal = getParam("newsId");
+
+        // console.log(searchVal)
+
+        // if (typeof searchVal != "undefined"){
+        //     getSearchNewsData(searchVal, 'idx')
+        // }
+
+ 
+
+        var pager = function (options) {
+
+            var defaults = {
+                currentPage: 1 // 현재페이지    
+                , pageSize: 5 // 페이지 사이즈 (화면 출력 페이지 수)
+                , maxListCount: 10 // (보여질)최대 리스트 수 (한페이지 출력될 항목 갯수)
+                , startnum: 1 // 시작 글번호
+                , lastnum: 10 // 마지막 글번호
+                , totalCnt: 0 // 전체 글의 갯수.
+                , totalPageCnt: 0 // 전체 페이지 수
+
+            };
+
+            this.buttonClickCallback = null;
+            this.opts = $.extend({}, defaults, options);
+
+        };
+
+        pager.prototype = {
+
+            "renderpager": function (totalCnt, buttonClickCallback) {
+
+                //console.log(this);
+                //console.log(this.opts);
+                var _ = this;
+
+                _.opts.totalCnt = totalCnt; //토탈 카운트 객체 멤버변수에 저장.
+
+                var pageSize = this.opts.pageSize;
+                var maxListCount = this.opts.maxListCount;
+                var currentPage = this.opts.currentPage;
+
+                if (totalCnt == 0) {
+                    return "";
+                }
+
+                //총페이지수 구하기 : 페이지 출력 범위 (1|2|3|4|5)
+                var totalPageCnt = Math.ceil(totalCnt / maxListCount);
+
+                //현재 블럭 구하기 
+                var n_block = Math.ceil(currentPage / pageSize);
+
+                //페이징의 시작페이지와 끝페이지 구하기
+                var s_page = (n_block - 1) * pageSize + 1; // 현재블럭의 시작 페이지
+                var e_page = n_block * pageSize; // 현재블럭의 끝 페이지
+
+                // setup $pager to hold render
+                var $pager = $('#paging'); // TODO: 페이지를 출력할 영역. ( 출력할 영역의 ID를 인자로..  )
+                $pager.empty(); //영역에 기존에 있던 내용 제거
+
+
+                //처음, 이전 버튼 추가
+                $pager.append(this.renderButton('first', totalPageCnt, _.buttonClickCallback))
+                    .append(this.renderButton('prev', totalPageCnt, _.buttonClickCallback));
+
+                //페이지 나열
+                for (var j = s_page; j <= e_page; j++) {
+                    if (j > totalPageCnt) break;
+
+                    var currentButton = $('<li >' + (j) + '</li>');
+
+                    //현재 페이지일경우 select 클래스 추가. 
+                    if (j == currentPage) currentButton.addClass('selected');
+                    else currentButton.click(function () {
+                        _.initNum(parseInt(this.firstChild.data));
+                        _.buttonClickCallback(this.firstChild.data);
+                    });
+
+                    currentButton.appendTo($pager); //페이징 영역에 버튼 추가            
+                }
+
+                //다음, 마지막 버튼 추가
+                $pager.append(this.renderButton('next', totalPageCnt, _.buttonClickCallback))
+                    .append(this.renderButton('last', totalPageCnt, _.buttonClickCallback));
+
+                return $pager;
+            },
+            "initNum": function (cp) {
+
+                this.opts.currentPage = cp;
+
+                //시작 글번호
+                this.opts.startnum = (cp - 1) * this.opts.maxListCount + 1;
+
+                // 마지막 글번호
+                var tmp = cp * this.opts.maxListCount;
+                this.opts.lastnum = (tmp > this.opts.totalCnt ? this.opts.totalCnt
+                    : tmp);
+
+                // console.log("P:" + cp + "/startnum:" + this.opts.startnum + "/lastnum:" + this.opts.lastnum);
+
+            },
+
+            "renderButton": function (buttonLabel, totalPageCnt,
+                buttonClickCallback) {
+                var _ = this;
+                var currentPage = this.opts.currentPage;
+                //var totalPageCnt = this.opts.totalPageCnt;
+
+                var $Button = $('<li >' + buttonLabel + '</li>');
+                var destPage = 1;
+
+                // work out destination page for required button type
+                switch (buttonLabel) {
+                    case "first":
+                        destPage = 1;
+                        $Button.addClass('active');
+                        $Button.html('<<');
+                        break;
+
+                    case "prev":
+                        destPage = currentPage - 1;
+                        $Button.addClass('active');
+                        $Button.html('이전');
+                        break;
+
+                    case "next":
+                        destPage = currentPage + 1;
+                        $Button.addClass('active');
+                        $Button.html('다음');
+                        break;
+
+                    case "last":
+                        destPage = totalPageCnt;
+                        $Button.addClass('active');
+                        $Button.html('>>');
+                        break;
+                }
+
+                // disable and 'grey' out buttons if not needed.
+                if (buttonLabel == "first" || buttonLabel == "prev") { //1페이지에서는 처음, 이전 버튼 안보이게 
+
+                    if (currentPage <= 1) $Button.addClass('pgEmpty').css("display", "none")
+                    else $Button.click(function () { _.initNum(destPage); buttonClickCallback(); });
+                } else {
+                    if (currentPage >= totalPageCnt) $Button.addClass('pgEmpty').css("display", "none")
+                    else $Button.click(function () { _.initNum(destPage); buttonClickCallback(); });
+                }
+                return $Button; //생성된 버튼 반환
+            }
+        };
+
+        function onClickAsEnter(e) {
+            if (e.keyCode === 13) {
+                onSendButtonClicked()
+            }
+        }
+
+
+
+
+        var page = new pager();
+        page.buttonClickCallback = listContent;
+
+        function listContent() {
+            $(".dic_table tbody").empty();
+
+            pageInfo = {
+                "listCnt": page['opts']['maxListCount'],
+                "startnum": page['opts']['startnum'],
+                "lastnum": page['opts']['lastnum'],
+                "currentPage": page['opts']['currentPage']
+            }
+            getCommunityData(pageInfo)
+        }
+        listContent();
+
+
+        function getCommunityData(pageInfo) {
+            $.ajax({
+                url: "/community_getdata",
+                type: "GET",
+                dataType: "json",
+                error: function (request, status, error) {
+                    console.log("연결실패")
+                }
+            }).done(function (data) {
+                console.log(data)
+                page.renderpager(data['data'].length);
+                window.comm_detail = comm_detail;
+                let n_data = data['data']
+                function comm_detail(i) {
+                    $(".type09 thead").empty();
+                    $(".type09 tbody").empty();
+                    $(".type09 thead").append("<tr><th scope='cols' width='60%'>" + n_data[i]['board-title'] + "</th><th class='write' scope='cols'>" + n_data[i]['writer_info'][1] + " | " + n_data[i]['date'] + "</th></tr>");
+                    $(".type09 tbody").append("<tr><td class='im' colspan='2'>" + n_data[i]['board-contents'] + "</td></tr>");
+                    let n_images = n_data[i]['img-name'];
+                    if (n_images !== "") {
+                        $(".im").append("<div class='news_img'><img src='./static/board-img/" + n_images + "'</div>");
+                    }
+                    
+                
+                    if(n_data[i]['writer_info'][0] === user_id){
+                        $(".write").append(`<button onclick="updateBtn('${n_data[i]['idx']}')">수정</button>`)
+                        $(".write").append(`<button onclick="delBtn('${n_data[i]['idx']}')">삭제</button>`)
+                    }
+                    
+                }
+                for (let i=pageInfo['startnum']-1; i<pageInfo['lastnum']; i++) {
+                    $(".dic_table tbody").append("<tr><td>" + (parseInt(i) + 1) + "</td><td><span onclick=comm_detail(" + i + ") > " + n_data[i]['board-title'] + "</td><td> " + n_data[i]['writer_info'][1] + "</span></td><td> " + n_data[i]['date'] + "</td></tr>");
+                }
+
+                function getSearchCommdata(search_key){
+                    $(".dic_table tbody").empty();
+                    for (let i in n_data) {
+                        if(n_data[i]['board-title'].includes(search_key)){
+                            $(".dic_table tbody").append("<tr><td>" + (parseInt(i) + 1) + "</td><td><span onclick=comm_detail(" + i + ") > " + n_data[i]['board-title'] + "</td><td> " + n_data[i]['writer_info'][1] + "</span></td><td> " + n_data[i]['date'] + "</td></tr>");
+                        }
+                    }
+                }
+
+                function search_commdata() {
+                    search_key = $('.searchbar').val();
+                    $(".type09 thead").empty();
+                    $(".type09 tbody").empty();
+                    getSearchCommdata(search_key)
+                }
+
+                $(".searchbar").keyup(function (e) {
+                    if (e.keyCode == 13) {
+                        search_commdata();
+                    }
+                });
+
+                $('.searchBtn').click(function () {
+                    search_commdata();
+                });
+            })
+        }
+        function delBtn(idx){
+            let check_del =  confirm("글을 삭제하시겠습니까?")
+            if(check_del){
+                location.href = '/community_delete/'+idx
+            }
+        }
+        
+        function updateBtn(idx){
+            location.href = '/community_write_update/'+idx
+        }
+        $(".write_btn").click(function () {
+            location.href = "/community_write"
+        });
+
+  
+
+
+
+        
+    </script>
+
+    </body>
+
+</html>

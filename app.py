@@ -2,8 +2,16 @@ from flask import Flask, render_template, request, session, redirect, url_for
 import os
 import requests
 import config
-
+from werkzeug.utils import secure_filename
 from pymongo import MongoClient
+from bson.objectid import ObjectId
+from datetime import datetime
+import os
+import uuid
+
+
+
+
 
 # 기본 세팅
 app = Flask(__name__)
@@ -15,7 +23,122 @@ RIOT_API_KEY = app.config['RIOT_API_KEY']
 
 # DB 설정
 my_client = MongoClient(app.config['DB_URL'])
+# my_client = MongoClient("mongodb://localhost:27017/")
+
 mydb = my_client['dodgeme'] 
+
+# 로그인 여부 확인
+def require_login():
+    if "user_info" in session:
+        return True
+    else:
+        return False
+
+
+@app.route('/community')
+def community():
+    return render_template('community.html')
+
+# 글작성 페이지
+@app.route('/community_write_update/<idx>', methods=['GET'])
+def community_write_update(idx):
+    if require_login():
+        mycol = mydb['community'] 
+        col = list(mycol.find({'_id':ObjectId(idx)}))
+        return render_template('community_write_update.html', col=col[0])
+    else:
+        return redirect(url_for('signin_page'))
+
+@app.route('/community_write')
+def community_write():
+    if require_login():
+        return render_template('community_write.html')
+    else:
+        return redirect(url_for('signin_page'))
+
+# 글저장 
+@app.route('/community_create', methods=['POST'])
+def community_create():
+    mycol = mydb['community'] 
+    path = "./static/board-img"
+    file_list = os.listdir(path)
+    if request.method == 'POST':
+        date =  str(datetime.now()).split(' ')
+        imgname = ""
+        file_flag = True
+        f = request.files['board-image']
+        for fname in file_list:
+            if fname == f.filename:
+                imgname = str(uuid.uuid4()) + f.filename
+                file_flag = False
+        if file_flag:
+            imgname = f.filename
+        if imgname != "":
+            f.save("./static/board-img/"+secure_filename(imgname))
+        board_data = {
+            "type" : request.form['type'],
+            "board-title" : request.form['board-title'],
+            "board-contents" : request.form['board-contents'],
+            "img-name" : imgname,
+            "date" : date[0],
+            "writer_info" : session['user_info']
+        }
+        mycol.insert(board_data)
+        return redirect(url_for('community'))
+
+@app.route('/community_delete/<idx>', methods=['GET'])
+def community_delete(idx: str):
+    mycol = mydb['community'] 
+    col = mycol.remove({'_id':ObjectId(idx)})
+    return redirect(url_for('community'))
+
+@app.route('/community_update/', methods=['POST'])
+def community_update():
+    mycol = mydb['community'] 
+    path = "./static/board-img"
+    file_list = os.listdir(path)
+    if request.method == 'POST':
+        date =  str(datetime.now()).split(' ')
+        imgname = ""
+        file_flag = True
+        f = request.files['board-image']
+        for fname in file_list:
+            if fname == f.filename:
+                imgname = str(uuid.uuid4()) + f.filename
+                file_flag = False
+        if file_flag:
+            imgname = f.filename
+        if imgname != "":
+            f.save("./static/board-img/"+secure_filename(imgname))
+        idx = request.form['idx']
+        mycol.update({'_id':ObjectId(idx)}, {"$set":{"board-title" : request.form['board-title']}})
+        mycol.update({'_id':ObjectId(idx)}, {"$set":{"board-contents" : request.form['board-contents']}})
+        mycol.update({'_id':ObjectId(idx)}, {"$set":{"img-name" : imgname}})
+        mycol.update({'_id':ObjectId(idx)}, {"$set":{"date" : date[0]}})
+        mycol.update({'_id':ObjectId(idx)}, {"$set":{"type" : request.form['type']}})
+        return redirect(url_for('community'))
+    
+
+@app.route('/community_getdata')
+def community_getdata():
+    mycol = mydb['community']
+    community_data = list(mycol.find())
+    community_data.reverse()
+    
+    result = []
+    for cd in community_data:
+        col = {
+            'idx' : str(cd['_id']),
+            'type' : str(cd['type']),
+            'board-title' : str(cd['board-title']),
+            'board-contents' : str(cd['board-contents']),
+            'img-name' : str(cd['img-name']),
+            'date' : str(cd['date']),
+            'writer_info' : cd['writer_info']
+        }
+        result.append(col)
+    
+    return {'data' : result}
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -25,18 +148,19 @@ def signup():
     idCheck = mycol.find_one({"user_id" : login_user_id})
     if idCheck:
         return {"check" : "이미 사용중인 아이디 입니다."}
-
-    user_age = request.form['user_birth_year'] + "-" + request.form['user_birth_month'] + "-" +request.form['user_birth_day']
-    user_db = {
-        "user_id" : login_user_id,
-        "user_pw" : request.form['user_pw'],
-        "user_name" : request.form['user_name'],
-        "user_age" : user_age,
-        "user_gender" : request.form['user_gender'],
-        "user_email" : request.form['user_email']
-    }
-    mycol.insert(user_db)
-    return render_template('signup_success.html')
+    else:
+        user_age = request.form['user_birth_year'] + "-" + request.form['user_birth_month'] + "-" +request.form['user_birth_day']
+        user_db = {
+            "user_id" : login_user_id,
+            "user_pw" : request.form['user_pw'],
+            "user_name" : request.form['user_name'],
+            "user_age" : user_age,
+            "user_gender" : request.form['user_gender'],
+            "user_email" : request.form['user_email']
+        }
+        mycol.insert(user_db)
+        return render_template('signup_success.html')
+    
 
     
 @app.route('/check_id_duplicate', methods=['POST'])
