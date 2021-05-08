@@ -1,9 +1,8 @@
-<!-- search.html -->
 <!DOCTYPE html>
 <head>
     <title>챔피언 정보</title>
     <link rel="stylesheet" href="../static/css/bootstrap.css">
-    <link rel="stylesheet" href="../static/css/search.css">
+    <link rel="stylesheet" href="../static/css/champion.css">
 </head>
 
 <body>
@@ -25,35 +24,38 @@
         </div>
     </nav>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="jumbotron">
-                    <img src="{{profileIcon}}">
-                    <div>
-                        <div style="margin-bottom: 20px;">
-                            챔피언
-                            <table class="table table-hover" >
-                                {% for i in champ %}
-                                    <tr>
-                                        <td>
-                                            <div class="champDiv">
-                                                <input type="hidden" id="champId" name="champId" value="{{ i[0] }}" />
-                                                <span class="game-data">
-                                                    <a href="/champ/detail?name={{i[0]}}">
-                                                        <img src="http://ddragon.leagueoflegends.com/cdn/11.8.1/img/champion/{{ i[2].full }}" />
-                                                    </a>
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td>{{ i[1] }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-                    </div>
-                </div>
+    <div class="grid-container">
+        <div class="item">
+            <div class="title"><a href="/champion">챔피언 리스트</a></div>
+            <div class="content">
+                <a href="/champion?initial=ㄱ"><span>ㄱ</span></a>
+                <a href="/champion?initial=ㄴ"><span>ㄴ</span></a>
+                <a href="/champion?initial=ㄷ"><span>ㄷ</span></a>
+                <a href="/champion?initial=ㄹ"><span>ㄹ</span></a>
+                <a href="/champion?initial=ㅁ"><span>ㅁ</span></a>
+                <a href="/champion?initial=ㅂ"><span>ㅂ</span></a>
+                <a href="/champion?initial=ㅅ"><span>ㅅ</span></a>
+                <a href="/champion?initial=ㅇ"><span>ㅇ</span></a>
+                <a href="/champion?initial=ㅈ"><span>ㅈ</span></a>
+                <a href="/champion?initial=ㅊ"><span>ㅊ</span></a>
+                <a href="/champion?initial=ㅋ"><span>ㅋ</span></a>
+                <a href="/champion?initial=ㅌ"><span>ㅌ</span></a>
+                <a href="/champion?initial=ㅍ"><span>ㅍ</span></a>
+                <a href="/champion?initial=ㅎ"><span>ㅎ</span></a>
             </div>
         </div>
+        {% for i in champ %}
+        <div class="item">
+            <div>
+                <input type="hidden" id="champId" name="champId" value="{{ i[0] }}" />
+                <span class="game-data">
+                    <a href="/champ/detail?name={{i[0]}}">
+                        <img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/{{ i[0] }}_0.jpg" />
+                    </a>
+                </span>
+            </div>
+            <div><a href="/champ/detail?name={{i[0]}}">{{ i[1] }}</a></div>
+        </div>
+        {% endfor %}
     </div>
 </body>

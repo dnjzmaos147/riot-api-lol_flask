@@ -1,0 +1,71 @@
+@font-face {
+    font-family: 'Wemakeprice-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/Wemakeprice-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body{
+    background: #e9ecef;
+}
+
+.grid-container{
+    display: grid;
+    width: 100%;
+    padding: 0 10%;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.item {
+    font-family: 'Wemakeprice-Bold';
+    font-size: 24px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+    box-sizing: border-box;
+    position: relative;
+    font-size: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    margin:5px;
+}
+.item img{
+    width: 180px;
+    height: 320px;
+    margin-bottom: 10px;
+}
+
+
+.item:nth-child(1) {
+    grid-column: 1 / span 7;
+}
+
+.item:nth-child(1) .title {
+    font-size: 28px;
+    margin: 0 0 40px 0;
+    color: #4a4a4a;
+}
+.item:nth-child(1) a{
+    text-decoration:none;
+    color: #4a4a4a;
+}
+
+.item:nth-child(1) a:hover{
+    color:#302f2f;
+}
+
+.item:nth-child(1) .content{
+    font-size: 25px;
+    margin: 0 10px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.item:nth-child(1) .content a{
+    color: #006efd;
+}
+
+.item:nth-child(1) .content a:hover{
+    color:#0a4ba0;
+}

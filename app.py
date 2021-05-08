@@ -205,6 +205,7 @@ def index():
 
 @app.route('/champion')
 def champion():
+    initial = request.args.get("initial")
     url_version = "https://ddragon.leagueoflegends.com/api/versions.json"
     res_version = requests.get(url=url_version).text
     version = ""
@@ -214,49 +215,55 @@ def champion():
         else:
             version = version + res_version[v]
 
-    sum_name = request.args.get('name')
-    
-    url = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{}".format(sum_name)
-    headers = {
-        "Origin": "https://developer.riotgames.com",
-        "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
-        "X-Riot-Token": RIOT_API_KEY,
-        "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
-    }
-    res = requests.get(url=url,headers=headers)
-    encrypted_id = res.json()['id']
-    level = res.json()['summonerLevel']
-    fix_name = res.json()['name']
-    account_id = res.json()['accountId']
-    profileIconId = res.json()['profileIconId']
-    url_league = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{}".format(encrypted_id)
-    res_league = requests.get(url=url_league,headers=headers)
-    league_dicts = res_league.json()
-    profileIcon = 'http://ddragon.leagueoflegends.com/cdn/{}/img/profileicon/{}.png'.format(version, profileIconId)
-
-
-    url_mastery = "https://kr.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{}".format(encrypted_id)
-    res_mastery = requests.get(url=url_mastery,headers=headers)
-    mastery = res_mastery.json()
-
-
     url_champ = "http://ddragon.leagueoflegends.com/cdn/{}/data/ko_KR/champion.json".format(version)
     res_champ = requests.get(url=url_champ)
     champ = res_champ.json().get('data')
 
-    def get_champ_info(champ):
-        res=[
-            champ.get('id'),
-            champ.get('name'),
-            champ.get('image'),
-        ]
-        return res
+    # 초성 리스트. 00 ~ 18
+    CHOSUNG_LIST = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
+    # 중성 리스트. 00 ~ 20
+    JUNGSUNG_LIST = ['ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ']
+    # 종성 리스트. 00 ~ 27 + 1(1개 없음)
+    JONGSUNG_LIST = [' ', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
+
+    def korean_spelling(korean_word):
+        r_lst = []
+        for w in list(korean_word.strip()):
+            ## 영어인 경우 구분해서 작성함. 
+            if '가'<=w<='힣':
+                ## 588개 마다 초성이 바뀜. 
+                ch1 = (ord(w) - ord('가'))//588
+                ## 중성은 총 28가지 종류
+                ch2 = ((ord(w) - ord('가')) - (588*ch1)) // 28
+                ch3 = (ord(w) - ord('가')) - (588*ch1) - 28*ch2
+                r_lst.append([CHOSUNG_LIST[ch1], JUNGSUNG_LIST[ch2], JONGSUNG_LIST[ch3]])
+            else:
+                r_lst.append([w])
+        return r_lst
+
+    def get_champ_info(param):
+        if initial is not None:
+            if initial == korean_spelling(param.get("name"))[0][0] :
+                res=[
+                    param.get('id'),
+                    param.get('name'),
+                    param.get('image'),
+                ]
+                return res
+        else :
+            res=[
+                param.get('id'),
+                param.get('name'),
+                param.get('image'),
+            ]
+            return res
+
     champ_arr = []
     for i in champ:
-        champ_arr.append(get_champ_info(champ[i]))
+        if get_champ_info(champ[i]) is not None:
+            champ_arr.append(get_champ_info(champ[i]))
 
-
+    champ_arr.sort(key=lambda x:x[1])
     return render_template('champion.html',champ=champ_arr)
 
 @app.route('/champ/detail')
