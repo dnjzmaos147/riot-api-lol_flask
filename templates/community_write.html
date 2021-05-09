@@ -4,6 +4,7 @@
         <title>DODGE ME</title>
         <link rel="stylesheet" href="../static/css/bootstrap.css">
         <link rel="stylesheet" href="../static/css/search.css">
+        <link rel="stylesheet" href="../static/css/moon.css">
     </head>
     
     <body>
@@ -26,7 +27,7 @@
         </nav>
 
 
-        <form action="/community_create" enctype = "multipart/form-data" method="POST" name="community_write">
+        <!-- <form action="/community_create" enctype = "multipart/form-data" method="POST" name="community_write">
             <select name="type">
                 <option value="free">자유</option>
                 <option value="fun">유머</option>
@@ -37,7 +38,26 @@
             내용<textarea type="text" name="board-contents" value="" id="board-contents"></textarea><br>
             <button type="button" onclick="gosubmit()">작성</button>
             <button type="button" onclick="goback()">취소</button>
-        </form>
+        </form> -->
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <div class="moon_content">
+                <form action="http://127.0.0.1:5000/community_create" enctype="multipart/form-data" method="POST" name="community_write">
+                    <p style="width: 100%; text-align: left;">Kategorie
+                    <select name="type" style="margin-right: 50px;">
+                        <option value="free">자유</option>
+                        <option value="fun">유머</option>
+                        <option value="tip">팁 &amp; 공략</option>
+                    </select>
+                    Title<input type="text" name="board-title" value="" id="board-title" style="width: 55%;">
+                    </p>
+                    <p style="text-align: left;">Contents <span style="margin-left: 300px;">Image</span><input type="file" name="board-image" style="width:25%; text-align: left;">
+                    </p>
+                    <textarea type="text" name="board-contents" value="" id="board-contents" style="width: 100%; height: 450px;"></textarea>
+                    <button type="button" onclick="gosubmit()">작성</button>
+                    <button type="button" onclick="goback()">취소</button>
+                </form>
+            </div>
+        </div>
     <script>
         var forms = document.community_write;
         function gosubmit(){

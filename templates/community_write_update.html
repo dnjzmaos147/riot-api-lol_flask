@@ -4,9 +4,10 @@
         <title>DODGE ME</title>
         <link rel="stylesheet" href="../static/css/bootstrap.css">
         <link rel="stylesheet" href="../static/css/search.css">
+        <link rel="stylesheet" href="../static/css/moon.css">
     </head>
     
-    <body>
+    <body style="height: 100%;">
     
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <a class="navbar-brand" href="./"><img src="/static/image/logo.png" style="width: 200px;"></a>
@@ -26,7 +27,7 @@
         </nav>
 
 
-        <form action="/community_update" enctype = "multipart/form-data" method="POST" name="community_write">
+        <!-- <form action="/community_update" enctype = "multipart/form-data" method="POST" name="community_write">
             {% if col['type'] == 'fun' %}
             <select name="type">
                 <option value="free">자유</option>
@@ -53,7 +54,43 @@
             <button type="button" onclick="gosubmit()">작성</button>
             <button type="button" onclick="goback()">취소</button>
             <input type="hidden" value="{{col['_id']}}" name="idx">
-        </form>
+        </form> -->
+
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <div class="moon_content">
+                <form action="/community_update" enctype = "multipart/form-data" method="POST" name="community_write">
+                    <p style="width: 100%; text-align: left;">Kategorie
+                        {% if col['type'] == 'fun' %}
+                        <select name="type">
+                            <option value="free">자유</option>
+                            <option value="fun" selected>유머</option>
+                            <option value="tip">팁 & 공략</option>
+                        </select><br>
+                        {% elif col['type'] == 'free' %}
+                        <select name="type">
+                            <option value="free" selected>자유</option>
+                            <option value="fun">유머</option>
+                            <option value="tip">팁 & 공략</option>
+                        </select><br>
+                        {% elif col['type'] == 'tip' %}
+                        <select name="type">
+                            <option value="free">자유</option>
+                            <option value="fun">유머</option>
+                            <option value="tip" selected>팁 & 공략</option>
+                        </select><br>
+                        {% endif %}
+                    Title<input type="text" name="board-title" value="{{col['board-title']}}" id="board-title" style="width: 55%;">
+                    </p>
+                    <p style="text-align: left;">Contents <span style="margin-left: 300px;">Image</span><input type="file" name="board-image" style="width:25%; text-align: left;">
+                    </p>
+                    <textarea type="text" name="board-contents" value="" id="board-contents" style="width: 100%; height: 435px;">{{col['board-contents']}}</textarea>
+                    <input type="hidden" value="{{col['_id']}}" name="idx">
+                    <button type="button" onclick="gosubmit()">작성</button>
+                    <button type="button" onclick="goback()">취소</button>
+                </form>
+            </div>
+        </div>
+
     <script>
         var forms = document.community_write;
         function gosubmit(){
