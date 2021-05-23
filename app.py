@@ -316,10 +316,8 @@ def champDetail():
             "img" : "http://ddragon.leagueoflegends.com/cdn/{}/img/spell/{}.png".format(version, i.get('id')),
         }
         skills.append(skill)
-    
-    print(skills)
 
-    return render_template('detailChamp.html', champ=champ, champImg=champImg, champNameKR=champNameKR, skills=skills, champSkins=champSkins, lore=lore)
+    return render_template('detailChamp.html', champ=champ, champTitle=champTitle, champImg=champImg, champNameKR=champNameKR, skills=skills, champSkins=champSkins, lore=lore)
     
     
 @app.route('/search')

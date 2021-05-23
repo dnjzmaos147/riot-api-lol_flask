@@ -52,6 +52,7 @@ div {
     text-align: left;
     color: #fff;
     font-weight: normal;
+    margin-bottom: 0%;
 }
 h1, h2, h3, h4, h5, h6 {
     margin: 0;
@@ -129,10 +130,26 @@ img {
     padding:2px;
     width: 200px;
 }
+.champion-description {
+  text-align: center;
+}
+.lore {
+  width: 700px; margin: 0 auto;
+}
+.skins-body {
+  float: left;
+  width: 50%;
+}
+.skins-name {
+  font-weight: bold;
+}
+.campion-title {
+  margin: 0%;
+}
 </style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="./"><img src="/static/image/logo.png" style="width: 200px;"></a>
+        <a class="navbar-brand" href="/"><img src="/static/image/logo.png" style="width: 200px;"></a>
         <div class="collapse navbar-collapse" id="navbarColor01"></div>
         {% if session['user_info'] %}
             <div style="color: white;">{{session['user_info'][1]}}&nbsp |  &nbsp<a href="/logout">로그아웃</a></div>
@@ -154,6 +171,7 @@ img {
             <img src="{{champImg}}" />
           </div>
           <h1 class="champion-stats-header-info__name">{{champNameKR}}</h1>
+          <p class="campion-title">{{champTitle}}</p>
           <div class="champion-stats-header-info__skill">
             {% for i in skills %}
             <div class="champion-stat__skill tip tpd-delegation-uid-1"
@@ -167,29 +185,36 @@ img {
           </div>
         </div>
       </div>
-      <!-- <h5> 챔피언 설명 : {{lore}}</h5>
-      <div class="l-champion-statistics-body">
-        {% for i in champSkins %}
-          <div>{{i.name}}</div>
-          <img class="skins" src="{{i.img}}" />
-        {% endfor %}
-      </div> -->
+      <div class="container champion-description">
+        <h5> 챔피언 설명 :</h5>
+        <div class="lore">{{lore}}</div>
+        <br/>
+        <div class="l-champion-statistics-body">
+          {% for i in champSkins %}
+          <div class="skins-body">
+            <div class="skins-name">{{i.name}}</div>
+            <img class="skins" src="{{i.img}}" />
+          </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
+
     <script>
       $(document).ready(function() {
         $('body').append('<div class="tooltip"><div class="tipBody"></div></div>'); 
         let tip;
-          $('.tip[title]').mouseover(function(e) { 
-              tip = $(this).attr('title'); 
-              $(this).attr('title','');   
-              $('.tooltip').fadeTo(300, 0.9).children('.tipBody').html( tip ); 
-          }).mousemove(function(e) {
-            $('.tooltip').css('top', e.pageY + 10 ); // mouse follow!
-            $('.tooltip').css('left', e.pageX + 20 );
-          }).mouseout(function(e) {
-              $('.tooltip').hide(); 
-              $(this).attr( 'title', tip );
-          });
+        $('.tip[title]').mouseover(function(e) { 
+            tip = $(this).attr('title'); 
+            $(this).attr('title','');   
+            $('.tooltip').fadeTo(300, 0.9).children('.tipBody').html( tip ); 
+        }).mousemove(function(e) {
+          $('.tooltip').css('top', e.pageY + 10 ); // mouse follow!
+          $('.tooltip').css('left', e.pageX + 20 );
+        }).mouseout(function(e) {
+            $('.tooltip').hide(); 
+            $(this).attr( 'title', tip );
+        });
       });
     </script>
 </body>
