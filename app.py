@@ -299,13 +299,25 @@ def champDetail():
     champImg = "http://ddragon.leagueoflegends.com/cdn/{}/img/champion/".format(version) + champ.get(champName).get('image').get('full')
 
     # 스킬
-    spells = champ.get(champName).get('spells')
     skills = []
-    skills.append("http://ddragon.leagueoflegends.com/cdn/{}/img/passive/{}".format(version, champ.get(champName).get('passive').get('image').get('full')))
+    spells = champ.get(champName).get('spells')
+    passive = {
+        "id": "passive",
+        "name": champ.get(champName).get('passive').get('name'),
+        "description" : champ.get(champName).get('passive').get('description'),
+        "img" : "http://ddragon.leagueoflegends.com/cdn/{}/img/passive/{}".format(version, champ.get(champName).get('passive').get('image').get('full')),
+    }
+    skills.append(passive)
     for i in spells:
-        skill = "http://ddragon.leagueoflegends.com/cdn/{}/img/spell/{}.png".format(version, i.get('id'))
+        skill = {
+            "id" : i.get('id')[-1],
+            "name" : i.get('name'),
+            "description" : i.get('description'),
+            "img" : "http://ddragon.leagueoflegends.com/cdn/{}/img/spell/{}.png".format(version, i.get('id')),
+        }
         skills.append(skill)
     
+    print(skills)
 
     return render_template('detailChamp.html', champ=champ, champImg=champImg, champNameKR=champNameKR, skills=skills, champSkins=champSkins, lore=lore)
     
