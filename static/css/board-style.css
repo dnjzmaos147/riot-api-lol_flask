@@ -881,7 +881,7 @@ footer ul li span {
 }
 
 .info_content2 .table > table, th, td {
-    border: 1px solid #e1e1e1;
+    border-bottom: 1px solid #e1e1e1;
 }
 .info_content2 .table > table {
     width: 100%;
@@ -956,7 +956,8 @@ footer ul li span {
 .dic1 {
     position: relative;
     width: 1200px;
-	margin:0 auto;
+    display: flex;
+    margin:0 auto;
 }
 
 .dic1 .inputarea {
@@ -971,6 +972,7 @@ footer ul li span {
     border: 1px solid #c2c2c2;
     box-shadow: 0px 3px 6px #00000029;
     padding-left: 20px;
+    margin-bottom: 20px;
 }
 
 .dic1 .inputarea input::placeholder {
@@ -1000,16 +1002,16 @@ footer ul li span {
     position: relative;
     height: 100%;
     width: 1200px;
-	margin:0 auto;
+    margin:0 auto;
 }
 
 .dic2 .dic_category {
-    margin-top: 10px;
     width: 100%;
     background-color: #ffffff;
     padding: 50px 0 100px;
     border-radius: 20px;
     box-shadow: 0px 3px 6px #00000029;
+    margin: 20px 0;
 } 
 
 
@@ -1021,6 +1023,10 @@ footer ul li span {
 .dic2 .dic_category .dic_table tr td {
     text-align: center;
     padding: 15px;
+}
+.dic2 .dic_category .dic_table tr td:nth-of-type(2) span {
+    display: block;
+    cursor: pointer;
 }
 
 .dic2 .dic_category .dic_table strong {
@@ -1035,9 +1041,9 @@ footer ul li span {
 }
 
 .dic2 .dic_category .paging {
-    margin: 0 auto;
-    width: 30%;
-    margin-top: 50px;
+    margin: 40px auto 0;
+    /* width: 30%; */
+    padding-bottom: 20px;
 }
 
 .dic2 .dic_category .paging ul {
@@ -1094,6 +1100,14 @@ footer ul li span {
     border: 1px solid #afafaf;
     border-left: none;
     border-right: none;
+    position : relative;
+}
+img.arrow {
+    position: absolute;
+    right: -40px;
+    top: 13px;
+    cursor: pointer;
+    transition: transform 0.3s;
 }
 
 .notice_table > table tr td:nth-child(2) {
@@ -1486,6 +1500,7 @@ table.type09 {
     vertical-align: top;
     color: #369;
     border-bottom: 3px solid #036;
+    position: relative;
   }
   table.type09 tbody th {
     width: 150px;
@@ -1494,6 +1509,14 @@ table.type09 {
     vertical-align: top;
     border-bottom: 1px solid #ccc;
     background: #f3f6f7;
+  }
+  table.type09 thead th p.info {
+    display: inline;
+    margin: 0;
+    font-family: none;
+}
+  table.type09 thead th .btns{
+      float : right;
   }
   table.type09 td {
     width: 350px;

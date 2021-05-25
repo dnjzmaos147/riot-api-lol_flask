@@ -75,9 +75,55 @@ body{
     height: auto;
 }
 
-
+.topArrow {
+    position: fixed;
+    right: 35px;
+    bottom: 100px;
+    width: 45px;
+    height: 45px;
+    background: #4582ec;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .topArrow img {
+    width: 28px;
+    height: 17px;
+    display: inline;
+    transform: scaleY(-1);
+  }
 body {
     background-image: url('http://universe.leagueoflegends.com/images/trendingBackground_Wallpaper.png');
+}
+li{
+    list-style: none;
+}
+.infoWrapper {
+    display: flex;
+    justify-content: space-between;
+}
+ul.infoName {
+    padding: 0;
+}
+ul.infoName li {text-align: left;margin : 10px 0;height: 24px;line-height: 24px; font-weight: 300;}
+ul.infoName li span{
+    font-size : 18px;
+}
+ul.infoBox {
+    width: 70%;
+    text-align: left;
+    padding: 0;
+}
+ul.infoBox li {
+    margin: 10px 0;
+    height: 24px;
+}
+
+ul.infoBox select {
+    height: 24px;
 }
 
 .detail_content {
@@ -96,10 +142,9 @@ body {
 }
 
 .moon_content {
-    width: 40%;
+    width: 800px;
     background-color: #f8f8f8 !important;
     margin-top: 5%;
-    height: 600px;
     padding: 20px !important;
     font-family: Spiegel,Helvetica,sans-serif,microsoft yahei;
     font-weight: 700;

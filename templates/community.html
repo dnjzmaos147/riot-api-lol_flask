@@ -29,6 +29,7 @@
             <input class="btn btn-secondary my-2 my-sm-0" type="submit" value="검색"></button>
         </form>
         </div>
+        <div class ="topArrow"><img src ="/static/image/board-arrow-icon.png"></div>
     </nav>
 
     <main class="container" style="margin-top: 50px;">
@@ -298,10 +299,10 @@
                 let n_data = data['data'];
                 s_data.push(n_data);
                 function comm_detail(i) {
-                    $(".detail_content").show();
+                    $(".detail_content").fadeIn();
                     $(".type09 thead").empty();
                     $(".type09 tbody").empty();
-                    $(".type09 thead").append("<tr><th scope='cols' width='60%'>" + n_data[i]['board-title'] + "</th><th class='write' scope='cols'>" + n_data[i]['writer_info'][1] + " | " + n_data[i]['date'] + "</th></tr>");
+                    $(".type09 thead").append("<tr><th scope='cols' width='60%'>" + n_data[i]['board-title'] + "</th><th class='write' scope='cols'>" + "<p class ='info'>"+ n_data[i]['writer_info'][1] + " | " + n_data[i]['date'] +"</p> <img onclick ='arrow()'class ='arrow' src ='../static/image/board-arrow-icon.png'></th></tr>");
                     $(".type09 tbody").append("<tr><td class='im' colspan='2'>" + n_data[i]['board-contents'] + "</td></tr>");
                     let n_images = n_data[i]['img-name'];
                     if (n_images !== "") {
@@ -310,10 +311,8 @@
 
 
                     if (n_data[i]['writer_info'][0] === user_id) {
-                        $(".write").append(`<button onclick="updateBtn('${n_data[i]['idx']}')">수정</button>`)
-                        $(".write").append(`<button onclick="delBtn('${n_data[i]['idx']}')">삭제</button>`)
+                        $(".write").append(`<div class ="btns"> <button onclick="updateBtn('${n_data[i]['idx']}')">수정</button> <button onclick="delBtn('${n_data[i]['idx']}')">삭제</button></div>`)
                     }
-
                 }
                 console.log("페이지 : ", pageInfo);
                 for (let i = pageInfo['startnum'] - 1; i < pageInfo['lastnum']; i++) {
@@ -365,11 +364,12 @@
             location.href = "/community_write"
         });
 
-
-
-
-
-
+        function arrow(){
+            $(".detail_content").stop().fadeOut();
+            $(".arrow").css("transform","scale(-1)")
+        }
+        $(".topArrow").click(function(){
+            $("html,body").stop().animate({scrollTop: 0},300);})
     </script>
 
     </body>

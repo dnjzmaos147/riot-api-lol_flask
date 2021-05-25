@@ -4,7 +4,26 @@
     font-weight: normal;
     font-style: normal;
 }
-
+.topArrow {
+    position: fixed;
+    right: 35px;
+    bottom: 100px;
+    width: 45px;
+    height: 45px;
+    background: #4582ec;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .topArrow img {
+    width: 28px;
+    height: 17px;
+    display: inline;
+    transform: scaleY(-1);
+  }
 body{
     background: #e9ecef;
 }
