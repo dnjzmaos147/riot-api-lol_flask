@@ -293,7 +293,6 @@
                     console.log("연결실패")
                 }
             }).done(function (data) {
-                console.log(data)
                 page.renderpager(data['data'].length);
                 window.comm_detail = comm_detail;
                 let n_data = data['data'];
@@ -314,7 +313,6 @@
                         $(".write").append(`<div class ="btns"> <button onclick="updateBtn('${n_data[i]['idx']}')">수정</button> <button onclick="delBtn('${n_data[i]['idx']}')">삭제</button></div>`)
                     }
                 }
-                console.log("페이지 : ", pageInfo);
                 for (let i = pageInfo['startnum'] - 1; i < pageInfo['lastnum']; i++) {
                     $(".dic_table tbody").append("<tr><td>" + (parseInt(i) + 1) + "</td><td><span onclick=comm_detail(" + i + ") > " + n_data[i]['board-title'] + "</td><td> " + n_data[i]['writer_info'][1] + "</span></td><td> " + n_data[i]['date'] + "</td></tr>");
                 }
@@ -333,7 +331,6 @@
 
         function search_commdata() {
             let search_key = $('.searchbar').val();
-            console.log("서치밸류 ㅣ: ", search_key)
             $(".type09 thead").empty();
             $(".type09 tbody").empty();
             getSearchCommdata(search_key)
@@ -346,7 +343,6 @@
         });
 
         $('.searchBtn').click(function () {
-            console.log("클릭함")
             search_commdata();
         });
 

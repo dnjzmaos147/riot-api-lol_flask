@@ -8,6 +8,7 @@ from bson.objectid import ObjectId
 from datetime import datetime
 import os
 import uuid
+import re
 
 
 
@@ -33,6 +34,54 @@ def require_login():
         return True
     else:
         return False
+
+@app.route('/itempage')
+def itempage():
+    url_version = "https://ddragon.leagueoflegends.com/api/versions.json"
+    res_version = requests.get(url=url_version).text
+    version = ""
+    for v in range(2, 15):
+        if res_version[v] == '"':
+            break
+        else:
+            version = version + res_version[v]
+    #item
+    url_item = "http://ddragon.leagueoflegends.com/cdn/{}/data/ko_KR/item.json".format(version)
+    res_item = requests.get(url=url_item)
+    item = res_item.json().get('data')
+    for i in item:
+        fix_item_des = re.sub('<.+?>', 'k', item[i]['description'], 0).strip()
+        fix_item_des_arr = fix_item_des.split('kk')
+        item_des_result = []
+        for fi in fix_item_des_arr:
+            if "k" in fi:
+                item_des_result.append(fi.replace("k", ""))
+        item[i]['description'] = item_des_result
+    return render_template('itempage.html', item=item)
+
+
+@app.route('/item_info')
+def item_info():
+    url_version = "https://ddragon.leagueoflegends.com/api/versions.json"
+    res_version = requests.get(url=url_version).text
+    version = ""
+    for v in range(2, 15):
+        if res_version[v] == '"':
+            break
+        else:
+            version = version + res_version[v]
+    url_item = "http://ddragon.leagueoflegends.com/cdn/{}/data/ko_KR/item.json".format(version)
+    res_item = requests.get(url=url_item)
+    item = res_item.json().get('data')
+    # for i in item:
+    #     fix_item_des = re.sub('<.+?>', 'k', item[i]['description'], 0).strip()
+    #     fix_item_des_arr = fix_item_des.split('kk')
+    #     item_des_result = []
+    #     for fi in fix_item_des_arr:
+    #         if "k" in fi:
+    #             item_des_result.append(fi.replace("k", ""))
+    #     item[i]['description'] = item_des_result
+    return item
 
 
 @app.route('/community')
