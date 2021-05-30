@@ -1,0 +1,94 @@
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DODGE ME</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" href="../static/css/search.css">
+
+    <link href="{{ url_for('static', filename="css/board-style.css") }}" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/moon.css">
+    <style>
+        table img {
+            width: 34px;
+            height: 34px;
+        }
+    </style>
+
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="./"><img src="/static/image/logo.png" style="width: 200px;"></a>
+        <div class="collapse navbar-collapse" id="navbarColor01"></div>
+
+        {% if session['user_info'] %}
+        <div style="color: white;">{{session['user_info'][1]}}&nbsp | &nbsp<a href="/logout">로그아웃</a></div>
+        {% else %}
+        <a href="/signin_page">로그인</a>
+        {% endif %}
+        &nbsp&nbsp&nbsp
+        <form class="form-inline my-2 my-lg-0" action="/search">
+            <input class="form-control mr-sm-2" type="text" name="name" placeholder="소환사명을 검색하세요">
+            <input class="btn btn-secondary my-2 my-sm-0" type="submit" value="검색"></button>
+        </form>
+        </div>
+        
+    </nav>
+
+    <main class="container" style="margin-top: 50px;">
+
+        <div class="dic2">
+            <!-- <div class="dic1">
+                <div class="inputarea">
+                    <input class="searchbar" type="text" placeholder="검색어를 입력해주세요" value="">
+                    <button class="searchBtn" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </div> -->
+
+            <div class="dic_category">
+                <table class="dic_table">
+                    <thead>
+                        <tr>
+                            <td>순위</td>
+                            <td>소환사</td>
+                            <td>랭크</td>
+                            <td>LP</td>
+                            <td>승</td>
+                            <td>패</td>
+                            <td>승률</td>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                       {% for r in rank_info %}
+                            <tr>
+                                <td>{{ r['order'] }}위</td>
+                                <td><a style="color: black;" href="/search?name={{ r['summonerName'] }}">{{ r['summonerName'] }}</a></td>
+                                <td><img src="https://poro.gg/images/lol/tier/Challenger_Emblem.png">{{ r['tier'] }} {{ r['rank'] }}</td>
+                                <td>{{ r['leaguePoints'] }}</td>
+                                <td>{{ r['wins'] }}승</td>
+                                <td>{{ r['losses'] }}패</td>
+                                <td>{{ r['winrate'] }}%</td>
+                            </tr>
+                       {% endfor %}
+                    </tbody>
+                </table>
+                <!-- <div class="paging" id="paging">
+                    <ul>
+                    </ul>
+                </div> -->
+            </div>
+            
+        </div>
+
+    </main>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
+
+
+    </body>
+
+</html>

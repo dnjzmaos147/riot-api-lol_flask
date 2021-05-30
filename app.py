@@ -9,6 +9,7 @@ from datetime import datetime
 import os
 import uuid
 import re
+import json
 
 
 
@@ -35,29 +36,31 @@ def require_login():
     else:
         return False
 
+@app.route('/ranking_page')
+def ranking_page():
+    page = 1
+    url = "https://kr.api.riotgames.com/lol/league-exp/v4/entries/RANKED_SOLO_5x5/CHALLENGER/I?page={}".format(page)
+    headers = {
+        "Origin": "https://developer.riotgames.com",
+        "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
+        "X-Riot-Token": RIOT_API_KEY,
+        "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
+    }
+    res = requests.get(url=url,headers=headers)
+    rank_info  = res.content
+    rank_info = rank_info.decode('utf-8')
+    rank_info = json.loads(rank_info)
+    cnt = 1
+    for i in rank_info:
+        i['winrate'] = round(i['wins'] / (i['wins'] + i['losses']) * 100, 1)
+        i['order'] = cnt
+        cnt = cnt + 1
+    return render_template('ranking_page.html', rank_info=rank_info)
+
 @app.route('/itempage')
 def itempage():
-    url_version = "https://ddragon.leagueoflegends.com/api/versions.json"
-    res_version = requests.get(url=url_version).text
-    version = ""
-    for v in range(2, 15):
-        if res_version[v] == '"':
-            break
-        else:
-            version = version + res_version[v]
-    #item
-    url_item = "http://ddragon.leagueoflegends.com/cdn/{}/data/ko_KR/item.json".format(version)
-    res_item = requests.get(url=url_item)
-    item = res_item.json().get('data')
-    for i in item:
-        fix_item_des = re.sub('<.+?>', 'k', item[i]['description'], 0).strip()
-        fix_item_des_arr = fix_item_des.split('kk')
-        item_des_result = []
-        for fi in fix_item_des_arr:
-            if "k" in fi:
-                item_des_result.append(fi.replace("k", ""))
-        item[i]['description'] = item_des_result
-    return render_template('itempage.html', item=item)
+    return render_template('itempage.html')
 
 
 @app.route('/item_info')
